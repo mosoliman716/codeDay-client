@@ -1,7 +1,12 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { api } from "../configs/api.js";
+import { useNavigate } from "react-router-dom";
+import { AuthProvider } from "../contexts/authContext.jsx";
 
 function Login() {
   const [state, setState] = useState("login");
+  const { login } = useContext(AuthProvider);
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -9,147 +14,164 @@ function Login() {
     password: "",
   });
 
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const validateInputs = () => {
+    if (!formData.email || !formData.password) {
+      setError("Email and password are required.");
+      return false;
+    }
+    if (state === "register" && !formData.name) {
+      setError("Name is required for registration.");
+      return false;
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      setError("Please enter a valid email address.");
+      return false;
+    }
+    return true;
+  };
+
+  const handleLogin = async (e) => {
     e.preventDefault();
+    setError("");
+
+    if (!validateInputs()) return;
+
+    setLoading(true);
+    try {
+      let response;
+      if (state === "login") {
+        response = await api.post("/users/login", {
+          email: formData.email,
+          password: formData.password,
+        });
+
+        console.log("Login successful:", response.data);
+        login(response.data.user, response.data.token);
+        navigate("/main");
+      } 
+      else if (state === "register") {
+        response = await api.post("/users/register", {
+          name: formData.name,
+          email: formData.email,
+          password: formData.password,
+        });
+        
+        console.log("Registration successful:", response.data);
+        login(response.data.user, response.data.token);
+        navigate("/main");
+      }
+     
+    } catch (err) {
+      setError(
+        err.response?.data?.message || "An error occurred. Please try again."
+      );
+      console.error("Login error:", err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <>
-    <div className="min-h-screen flex items-center justify-center px-4">
-      <form
-        onSubmit={handleSubmit}
-        className="w-full sm:w-87.5 text-center bg-gray-900 border border-gray-800 rounded-2xl px-8 shadow-lg"
-      >
-        <h1 className="text-white text-3xl mt-10 font-medium">
-          {state === "login" ? "Login" : "Sign up"}
-        </h1>
+      <div className="min-h-screen flex items-center justify-center px-4">
+        <form
+          onSubmit={handleLogin}
+          className="w-full sm:w-87.5 text-center bg-gray-900 border border-gray-800 rounded-2xl px-8 shadow-lg"
+        >
+          <h1 className="text-white text-3xl mt-10 font-medium">
+            {state === "login" ? "Login" : "Sign up"}
+          </h1>
 
-        <p className="text-gray-400 text-sm mt-2">
-          Please {state === "login" ? "sign in" : "sign up"} to continue
-        </p>
+          <p className="text-gray-400 text-sm mt-2">
+            Please {state === "login" ? "sign in" : "sign up"} to continue
+          </p>
 
-        {state !== "login" && (
-          <div className="flex items-center mt-6 w-full bg-gray-800 ring-2 ring-gray-700 focus-within:ring-indigo-500 h-12 rounded-full overflow-hidden pl-6 gap-2 transition-all">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              className="text-gray-500"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <circle cx="12" cy="8" r="5" />
-              <path d="M20 21a8 8 0 0 0-16 0" />
-            </svg>
+          {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+
+          {state !== "login" && (
+            <div className="flex items-center mt-6 w-full bg-gray-800 ring-2 ring-gray-700 focus-within:ring-indigo-500 h-12 rounded-full overflow-hidden pl-6 gap-2 transition-all">
+              <input
+                type="text"
+                name="name"
+                placeholder="Name"
+                className="w-full bg-transparent text-white placeholder-gray-500 border-none outline-none"
+                value={formData.name}
+                onChange={handleChange}
+                required
+              />
+            </div>
+          )}
+
+          <div className="flex items-center w-full mt-4 bg-gray-800 ring-2 ring-gray-700 focus-within:ring-indigo-500 h-12 rounded-full overflow-hidden pl-6 gap-2 transition-all">
             <input
-              type="text"
-              name="name"
-              placeholder="Name"
+              type="email"
+              name="email"
+              placeholder="Email id"
               className="w-full bg-transparent text-white placeholder-gray-500 border-none outline-none"
-              value={formData.name}
+              value={formData.email}
               onChange={handleChange}
               required
             />
           </div>
-        )}
 
-        <div className="flex items-center w-full mt-4 bg-gray-800 ring-2 ring-gray-700 focus-within:ring-indigo-500 h-12 rounded-full overflow-hidden pl-6 gap-2 transition-all">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            className="text-gray-500"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
+          <div className="flex items-center mt-4 w-full bg-gray-800 ring-2 ring-gray-700 focus-within:ring-indigo-500 h-12 rounded-full overflow-hidden pl-6 gap-2 transition-all">
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              className="w-full bg-800 text-white placeholder-gray-500 border-none outline-none"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className="mt-4 text-left">
+            <button className="text-sm text-indigo-400 hover:underline">
+              Forget password?
+            </button>
+          </div>
+
+          <button
+            type="submit"
+            className="mt-2 w-full h-11 rounded-full text-white bg-indigo-600 hover:bg-indigo-500 transition"
+            disabled={loading}
           >
-            <path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7" />
-            <rect x="2" y="4" width="20" height="16" rx="2" />
-          </svg>
-          <input
-            type="email"
-            name="email"
-            placeholder="Email id"
-            className="w-full bg-transparent text-white placeholder-gray-500 border-none outline-none"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <div className="flex items-center mt-4 w-full bg-gray-800 ring-2 ring-gray-700 focus-within:ring-indigo-500 h-12 rounded-full overflow-hidden pl-6 gap-2 transition-all">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            className="text-gray-500"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <rect width="18" height="11" x="3" y="11" rx="2" ry="2" />
-            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-          </svg>
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            className="w-full bg-gray-800 text-white placeholder-gray-500 border-none outline-none"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <div className="mt-4 text-left">
-          <button className="text-sm text-indigo-400 hover:underline">
-            Forget password?
+            {loading
+              ? "Please wait..."
+              : state === "login"
+              ? "Login"
+              : "Sign up"}
           </button>
-        </div>
 
-        <button
-          type="submit"
-          className="mt-2 w-full h-11 rounded-full text-white bg-indigo-600 hover:bg-indigo-500 transition"
-        >
-          {state === "login" ? "Login" : "Sign up"}
-        </button>
-
-        <p
-          onClick={() =>
-            setState((prev) => (prev === "login" ? "register" : "login"))
-          }
-          className="text-gray-400 text-sm mt-3 mb-11 cursor-pointer"
-        >
-          {state === "login"
-            ? "Don't have an account?"
-            : "Already have an account?"}
-          <span className="text-indigo-400 hover:underline ml-1">
-            click here
-          </span>
-        </p>
-      </form>
-    </div>
-      {/* Soft Backdrop */}
-      <div className="fixed inset-0 -z-1 pointer-events-none">
-        <div className="absolute left-1/2 top-20 -translate-x-1/2 w-245 h-115 bg-gradient-to-tr from-gray-900 to-gray-800 rounded-full blur-3xl" />
-        <div className="absolute right-12 bottom-10 w-105 h-55 bg-gradient-to-bl from-gray-800 to-gray-900 rounded-full blur-2xl" />
+          <p
+            onClick={() =>
+              setState((prev) => (prev === "login" ? "register" : "login"))
+            }
+            className="text-gray-400 text-sm mt-3 mb-11 cursor-pointer"
+          >
+            {state === "login"
+              ? "Don't have an account?"
+              : "Already have an account?"}
+            <span className="text-indigo-400 hover:underline ml-1">
+              click here
+            </span>
+          </p>
+        </form>
       </div>
-      
+      <div className="fixed inset-0 -z-1 pointer-events-none">
+        <div className="absolute left-1/2 top-20 -translate-x-1/2 w-245 h-115 bg-linear-to-tr from-gray-900 to-gray-800 rounded-full blur-3xl" />
+        <div className="absolute right-12 bottom-10 w-105 h-55 bg-linear-to-bl from-gray-800 to-gray-900 rounded-full blur-2xl" />
+      </div>
     </>
   );
 }
