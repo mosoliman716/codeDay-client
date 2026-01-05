@@ -1,11 +1,11 @@
 import { useState, useContext } from "react";
 import { api } from "../configs/api.js";
 import { useNavigate } from "react-router-dom";
-import { AuthProvider } from "../contexts/authContext.jsx";
+import { AuthContext } from "../contexts/authContext.jsx";
 
 function Login() {
   const [state, setState] = useState("login");
-  const { login } = useContext(AuthProvider);
+  const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -52,7 +52,7 @@ function Login() {
         response = await api.post("/users/login", {
           email: formData.email,
           password: formData.password,
-        });
+        },{ withCredentials: true });
 
         console.log("Login successful:", response.data);
         login(response.data.user, response.data.token);
@@ -63,7 +63,7 @@ function Login() {
           name: formData.name,
           email: formData.email,
           password: formData.password,
-        });
+        },{ withCredentials: true });
         
         console.log("Registration successful:", response.data);
         login(response.data.user, response.data.token);
