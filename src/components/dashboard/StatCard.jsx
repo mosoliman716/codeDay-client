@@ -1,8 +1,8 @@
-export function StatCard({ title, value, trend, className, icon: Icon }) {
+export function StatCard({ title, value, trend, icon: Icon }) {
   return (
-    <div className={className}>
+    <div className="p-4 bg-gray-800 rounded-lg hover:-translate-y-5 transition-all duration-300">
       <div className="flex items-start justify-between">
-        <div className="p-3 rounded-md bg-[#090616] text-secondary border border-[#06b6d4] w-50 md:w-100 h-50 flex flex-col">
+        <div className="p-3 rounded-md bg-gray-800 text-white w-50 md:w-100 h-50 flex flex-col">
           <p className="text-sm text-muted-foreground font-medium text-white">
             {title}
           </p>

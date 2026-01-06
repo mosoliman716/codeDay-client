@@ -1,5 +1,8 @@
 import { Code2, FolderKanban, GraduationCap, Award } from "lucide-react";
 import { StatCard } from "../components/dashboard/StatCard.jsx";
+import ProblemChart from "../components/dashboard/ProblemChart.jsx";
+import ProjectOverview from "../components/dashboard/ProjectsOverview.jsx";
+import RecentActivity from "../components/dashboard/RecentActivity.jsx";
 
 export default function Dashboard() {
   return (
@@ -34,6 +37,27 @@ export default function Dashboard() {
           value={8}
           icon={Award}
         />
+      </div>
+      {/*Problem chart*/}
+      <div className="bg-gray-800 p-4 rounded-lg h-90">
+        <h2 className="text-xl font-semibold text-white mb-4">Problem Solving Progress</h2>
+        <div className="h-64 bg-gray-700 rounded-lg flex items-center justify-center">
+            <ProblemChart />
+        </div>
+      </div>
+      {/* projects visualization */}
+      <div className="bg-gray-800 p-4 rounded-lg h-90">
+        <h2 className="text-xl font-semibold text-white mb-4">Projects Overview</h2>
+        <div className="h-64 bg-gray-700 rounded-lg flex items-center justify-center">
+            <ProjectOverview />
+        </div>
+      </div>
+      {/* Recent activities */}
+      <div className="bg-gray-800 p-4 rounded-lg">
+        <h2 className="text-xl font-semibold text-white mb-4">Recent Activites</h2>
+        <div className=" bg-gray-700 rounded-lg flex items-center justify-center">
+            <RecentActivity />
+        </div>
       </div>
     </div>
   );
