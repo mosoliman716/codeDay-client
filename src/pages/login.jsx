@@ -168,6 +168,7 @@ function Login() {
           </p>
         </form>
       </div>
+      {/* Background Effects */}
       <div className="fixed inset-0 -z-1 pointer-events-none">
         <div className="absolute left-1/2 top-20 -translate-x-1/2 w-245 h-115 bg-linear-to-tr from-gray-900 to-gray-800 rounded-full blur-3xl" />
         <div className="absolute right-12 bottom-10 w-105 h-55 bg-linear-to-bl from-gray-800 to-gray-900 rounded-full blur-2xl" />
