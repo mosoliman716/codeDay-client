@@ -56,7 +56,7 @@ function Login() {
 
         console.log("Login successful:", response.data);
         login(response.data.user, response.data.token);
-        navigate("/main");
+        navigate("/dashboard");
       } 
       else if (state === "register") {
         response = await api.post("/users/register", {
@@ -67,7 +67,7 @@ function Login() {
         
         console.log("Registration successful:", response.data);
         login(response.data.user, response.data.token);
-        navigate("/main");
+        navigate("/dashboard");
       }
      
     } catch (err) {

@@ -1,74 +1,15 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { api } from "../configs/api.js"
 
 function Problems() {
-  const problems = [
-    {
-      id: 1,
-      title: "Two Sum",
-      platform: "LeetCode",
-      difficulty: "Easy",
-      status: "Solved",
-      url: "#",
-    },
-    {
-      id: 2,
-      title: "Binary Search",
-      platform: "LeetCode",
-      difficulty: "Easy",
-      status: "Solved",
-      url: "#",
-    },
-    {
-      id: 3,
-      title: "Valid Parentheses",
-      platform: "LeetCode",
-      difficulty: "Easy",
-      status: "Solved",
-      url: "#",
-    },
-    {
-      id: 4,
-      title: "Longest Substring",
-      platform: "LeetCode",
-      difficulty: "Medium",
-      status: "In Progress",
-      url: "#",
-    },
-    {
-      id: 5,
-      title: "Merge Intervals",
-      platform: "LeetCode",
-      difficulty: "Medium",
-      status: "In Progress",
-      url: "#",
-    },
-    {
-      id: 6,
-      title: "Decode Ways",
-      platform: "Codewars",
-      difficulty: "Hard",
-      status: "Unsolved",
-      url: "#",
-    },
-    {
-      id: 7,
-      title: "String Calculator",
-      platform: "Codewars",
-      difficulty: "Medium",
-      status: "Unsolved",
-      url: "#",
-    },
-    {
-      id: 8,
-      title: "Reverse Linked List",
-      platform: "LeetCode",
-      difficulty: "Easy",
-      status: "Solved",
-      url: "#",
-    },
-  ];
-
+  const [problems, setProblems] = useState([]);
   const [showAddProblem, setShowAddProblem] = useState(false);
+  const [newProblem, setNewProblem] = useState({
+    title: "",
+    difficulty: "Easy",
+    status: "Unsolved",
+    problem_url: "",
+  })
   const [platform, setPlatform] = useState("all");
   const [difficulty, setDifficulty] = useState("all");
 
@@ -81,6 +22,22 @@ function Problems() {
       return matchesStatus && matchesPlatform && matchesDifficulty;
     });
   };
+  const addProblem = async () => {
+    setShowAddProblem(false);
+    const response = await api.post("/problems/add", newProblem, {
+      withCredentials: true,
+    });
+    setProblems([...problems, response.data]);
+  }
+  const getProblems = async () => {
+    const response = await api.get("/problems/get",{
+      withCredentials: true,
+    });
+    setProblems(response.data);
+  }
+  useEffect(() => {
+    getProblems();
+  },[]);
   return (
     <div className="space-y-8 mt-10">
       {/* Header */}
@@ -192,6 +149,8 @@ function Problems() {
                   type="text"
                   className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white"
                   required
+                  value={newProblem.title}
+                  onChange={(e) => setNewProblem({ ...newProblem, title: e.target.value })}
                 />
               </div>
               <div className="mb-4">
@@ -201,6 +160,8 @@ function Problems() {
                 <select
                   className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white"
                   required
+                  value={newProblem.difficulty}
+                  onChange={(e) => setNewProblem({ ...newProblem, difficulty: e.target.value })}
                 >
                   <option value="Easy">Easy</option>
                   <option value="Medium">Medium</option>
@@ -214,6 +175,8 @@ function Problems() {
                 <select
                   className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white"
                   required
+                  value={newProblem.status}
+                  onChange={(e) => setNewProblem({ ...newProblem, status: e.target.value })}
                 >
                   <option value="Solved">Solved</option>
                   <option value="In Progress">In Progress</option>
@@ -227,6 +190,8 @@ function Problems() {
                 <input
                   type="url"
                   className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white"
+                  value={newProblem.problem_url}
+                  onChange={(e) => setNewProblem({ ...newProblem, problem_url: e.target.value })}
                 />
               </div>
               <div className="flex justify-end space-x-2">
@@ -240,7 +205,7 @@ function Problems() {
                  <button
                   type="button"
                   className="bg-[#06b6d4] hover:bg-[#06b6d4] text-white px-4 py-2 rounded-md"
-                  onClick={() => setShowAddProblem(false)}
+                  onClick={() => addProblem()}
                 >
                     Submit
                 </button>
