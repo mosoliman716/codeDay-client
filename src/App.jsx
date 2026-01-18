@@ -1,6 +1,7 @@
 import Login from "./pages/login.jsx";
 import Dashboard from "./pages/dashboard.jsx";
 import Problems from "./pages/problems.jsx";
+import Projects from "./pages/projects.jsx";
 import { Routes, Route } from "react-router-dom";
 import "./App.css";
 import { MainLayout } from "./components/MainLayout.jsx";
@@ -14,6 +15,7 @@ function App() {
         <Route
           path="/dashboard"
           element={
+            
               <MainLayout>
                 <Dashboard />
               </MainLayout>
@@ -22,9 +24,21 @@ function App() {
         <Route
           path="/problems"
           element={
-              <MainLayout>
+            <ProtectedRoute>
+               <MainLayout>
                 <Problems />
               </MainLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/projects"
+          element={
+            <ProtectedRoute>
+              <MainLayout>
+                <Projects />
+              </MainLayout>
+            </ProtectedRoute>
           }
         />
       </Routes>

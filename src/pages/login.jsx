@@ -55,7 +55,7 @@ function Login() {
         },{ withCredentials: true });
 
         console.log("Login successful:", response.data);
-        login(response.data.user, response.data.token);
+        login(response.data.user);
         navigate("/dashboard");
       } 
       else if (state === "register") {
@@ -66,7 +66,7 @@ function Login() {
         },{ withCredentials: true });
         
         console.log("Registration successful:", response.data);
-        login(response.data.user, response.data.token);
+        login(response.data.user);
         navigate("/dashboard");
       }
      
