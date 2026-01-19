@@ -1,58 +1,8 @@
 import { Plus } from "lucide-react";
 import ProjectCard from "../components/projects/ProjectCard.jsx";
 import AddProject from "../components/projects/AddProject.jsx";
-import { useState } from "react";
-
-const projects = [
-  {
-    id: 1,
-    title: "Portfolio Website",
-    description: "Personal portfolio showcasing projects and skills",
-    technologies: ["React", "Tailwind", "Framer Motion"],
-    status: "Idea",
-    githubUrl: "#",
-    demoUrl: "#",
-  },
-  {
-    id: 2,
-    title: "E-Commerce App",
-    description: "Full-stack e-commerce platform with payment integration",
-    technologies: ["Next.js", "Stripe", "PostgreSQL"],
-    status: "Completed",
-    githubUrl: "#",
-    demoUrl: "#",
-  },
-  {
-    id: 3,
-    title: "Task Manager App",
-    description: "Productivity app with drag-and-drop functionality",
-    technologies: ["React", "TypeScript", "Supabase"],
-    status: "In Progress",
-    githubUrl: "#",
-  },
-  {
-    id: 4,
-    title: "API Development",
-    description: "RESTful API for mobile applications",
-    technologies: ["Node.js", "Express", "MongoDB"],
-    status: "In Progress",
-    githubUrl: "#",
-  },
-  {
-    id: 5,
-    title: "Project 1",
-    description: "New project idea to explore",
-    technologies: ["TBD"],
-    status: "Idea",
-  },
-  {
-    id: 6,
-    title: "Project 2",
-    description: "Another project concept",
-    technologies: ["TBD"],
-    status: "Idea",
-  },
-];
+import { useState, useEffect } from "react";
+import { api } from "../configs/api.js"
 
 const columns = [
   { id: "Idea", title: "Idea", color: "border-t-4 border-t-gray" },
@@ -64,7 +14,9 @@ const columns = [
   { id: "Completed", title: "Completed", color: "border-t-4 border-green" },
 ];
 
+
 export default function Projects() {
+  const [projects, setProjects] = useState([]);
   const [showAddProject, setShowAddProject] = useState(false);
   const [newProject, setNewProject] = useState({
     title: "",
@@ -74,6 +26,24 @@ export default function Projects() {
     githubUrl: "",
     demoUrl: "",
   });
+
+  const addProject = async () => {
+      setShowAddProject(false);
+      const response = await api.post("/projects/add", newProject, {
+        withCredentials: true,
+      });
+      setProjects([...projects, response.data]);
+  }
+
+    const getProjects = async () => {
+      const response = await api.get("/projects/get",{
+        withCredentials: true,
+      });
+      setProjects(response.data);
+    }
+    useEffect(() => {
+      getProjects();
+    },[]);
   return (
     <div className="space-y-8 mt-10">
       {/* Header */}
@@ -133,6 +103,7 @@ export default function Projects() {
           setShowAddProject={setShowAddProject}
           newProject={newProject}
           setNewProject={setNewProject}
+          addProject={addProject}
         />
       )}
     </div>
