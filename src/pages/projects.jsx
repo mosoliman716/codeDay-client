@@ -34,16 +34,20 @@ export default function Projects() {
       });
       setProjects([...projects, response.data]);
   }
-
-    const getProjects = async () => {
-      const response = await api.get("/projects/get",{
-        withCredentials: true,
-      });
-      setProjects(response.data);
-    }
+ 
     useEffect(() => {
-      getProjects();
-    },[]);
+      const fetchProjects = async () => {
+        try {
+          const response = await api.get("/projects/get", {
+            withCredentials: true,
+          });
+          setProjects(response.data);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+      fetchProjects();
+    }, []);
   return (
     <div className="space-y-8 mt-10">
       {/* Header */}
