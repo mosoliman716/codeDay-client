@@ -11,10 +11,12 @@ function ProblemCard({ p, index }) {
 
   const editProblem = async () => {
     try {
-      const response = await api.put("/problems/edit", p, {
+      const response = await api.put("/problems/edit", editedProblem, {
         withCredentials: true,
       });
-      console.log("Edited problem:", response.data);
+      console.log("Edited problem:", response.data, editedProblem);
+      setEditedProblem(response.data);
+      setOpenEditProblem(false);
     } catch (err) {
       console.error("Error editing problem:", err);
     }
@@ -66,7 +68,10 @@ function ProblemCard({ p, index }) {
                   </button>
                   <button
                     className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-gray-700"
-                    onClick={() => {setMenuOpen(false); deleteProblem();}}
+                    onClick={() => {
+                      setMenuOpen(false);
+                      deleteProblem();
+                    }}
                   >
                     Delete
                   </button>
