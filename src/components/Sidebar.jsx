@@ -194,33 +194,10 @@ const Sidebar = () => {
                 Certificates
               </Link>
             </li>
-            <li>
-              <Link
-                to="/profile"
-                onClick={() => setOpen(false)}
-                className="block py-2.5 px-4 text-lg rounded hover:bg-[#06b6d4] hover:text-white transition-colors flex items-center"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 mr-3 text-[#06b6d4]"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M5.121 17.804A9 9 0 1118.88 6.196 9 9 0 015.12 17.804zM15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                  />
-                </svg>
-                Profile
-              </Link>
-            </li>
           </ul>
         </nav>
         {/*footer */}
-        <div className="p-4 border-t border-sidebar-border">
+        <div className="p-4 border-t border-sidebar-border mt-10">
           <div className="bg-gray-800 rounded-xl p-4">
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 rounded-full bg-[#06b6d4] flex items-center justify-center">

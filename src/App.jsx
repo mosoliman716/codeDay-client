@@ -7,6 +7,7 @@ import { Routes, Route } from "react-router-dom";
 import "./App.css";
 import { MainLayout } from "./components/MainLayout.jsx";
 import ProtectedRoute from "./configs/ProtectedRoute.jsx";
+import Courses from "./pages/courses.jsx";
 
 function App() {
   return (
@@ -50,6 +51,16 @@ function App() {
                 <Tasks />
               </MainLayout>
             </ProtectedRoute>
+          }
+        />
+         <Route
+          path="/courses"
+          element={
+            
+              <MainLayout>
+                <Courses />
+              </MainLayout>
+           
           }
         />
       </Routes>
