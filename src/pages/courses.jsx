@@ -1,12 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Plus } from "lucide-react";
 import CourseCard from "../components/courses/CourseCard.jsx";
 import AddCourse from "../components/courses/AddCourse.jsx";
 import { api } from "../configs/api.js";
 
-
 export default function Courses() {
-  const [courses, setCourses] = useState([])
+  const [courses, setCourses] = useState([]);
   const [platform, setPlatform] = useState("all");
   const [category, setCategory] = useState("all");
   const [tab, setTab] = useState("not-started");
@@ -24,15 +23,31 @@ export default function Courses() {
       const response = await api.post("/courses/add", newCourse, {
         withCredentials: true,
       });
+      console.log(response.data);
       setCourses([...courses, response.data]);
     } catch (error) {
       console.error(error);
     }
   };
 
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const response = await api.get("/courses/get", {
+          withCredentials: true,
+        });
+        setCourses(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchCourses();
+  }, []);
+
   const filterCourses = (status) => {
+    const normalize = (s) => String(s).toLowerCase().replace(/\s+/g, "-");
     return courses.filter((c) => {
-      const matchesStatus = c.status === status;
+      const matchesStatus = normalize(c.status) === normalize(status);
       const matchesPlatform = platform === "all" || c.platform === platform;
       const matchesCategory = category === "all" || c.category === category;
       return matchesStatus && matchesPlatform && matchesCategory;
@@ -52,7 +67,10 @@ export default function Courses() {
             Track your learning progress
           </p>
         </div>
-        <button className="bg-[#06b6d4] text-white hover:bg-[#06b6d4]/90 px-4 py-2 rounded flex items-center" onClick={() => setShowAddCourse(true)}>
+        <button
+          className="bg-[#06b6d4] text-white hover:bg-[#06b6d4]/90 px-4 py-2 rounded flex items-center"
+          onClick={() => setShowAddCourse(true)}
+        >
           <Plus className="w-4 h-4 mr-2" />
           Add Course
         </button>
@@ -99,7 +117,7 @@ export default function Courses() {
             onClick={() => setTab("not-started")}
             className={`px-3 text-white py-2 bg-gray-700 rounded text-sm ${tab === "not-started" ? "bg-gray-800" : ""}`}
           >
-            Not Started ({filterCourses("Not Started").length})
+            Not Started ({filterCourses("not-started").length})
           </button>
 
           <button
@@ -107,7 +125,7 @@ export default function Courses() {
             onClick={() => setTab("in-progress")}
             className={`px-3 py-1 text-white bg-gray-700 rounded text-sm ${tab === "in-progress" ? "bg-gray-800" : ""}`}
           >
-            In Progress ({filterCourses("In Progress").length})
+            In Progress ({filterCourses("in-progress").length})
           </button>
 
           <button
@@ -115,31 +133,31 @@ export default function Courses() {
             onClick={() => setTab("completed")}
             className={`px-3 py-1 text-white bg-gray-700 rounded text-sm ${tab === "completed" ? "bg-gray-800" : ""}`}
           >
-            Completed ({filterCourses("Completed").length})
+            Completed ({filterCourses("completed").length})
           </button>
         </div>
 
         <div className="mt-6">
           {tab === "not-started" && (
             <div className="space-y-4">
-              {filterCourses("Not Started").map((course) => (
-                <CourseCard key={course.id} course={course} />
+              {filterCourses("not-started").map((course) => (
+                <CourseCard key={course._id || course.id} course={course} />
               ))}
             </div>
           )}
 
           {tab === "in-progress" && (
             <div className="space-y-4">
-              {filterCourses("In Progress").map((course) => (
-                <CourseCard key={course.id} course={course} />
+              {filterCourses("in-progress").map((course) => (
+                <CourseCard key={course._id || course.id} course={course} />
               ))}
             </div>
           )}
 
           {tab === "completed" && (
             <div className="space-y-4">
-              {filterCourses("Completed").map((course) => (
-                <CourseCard key={course.id} course={course} />
+              {filterCourses("completed").map((course) => (
+                <CourseCard key={course._id || course.id} course={course} />
               ))}
             </div>
           )}
@@ -147,7 +165,12 @@ export default function Courses() {
       </div>
 
       {showAddCourse && (
-        <AddCourse setShowAddCourse={setShowAddCourse} newCourse={newCourse} setNewCourse={setNewCourse} addCourse={addCourse} />
+        <AddCourse
+          setShowAddCourse={setShowAddCourse}
+          newCourse={newCourse}
+          setNewCourse={setNewCourse}
+          addCourse={addCourse}
+        />
       )}
     </div>
   );

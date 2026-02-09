@@ -56,11 +56,11 @@ function App() {
          <Route
           path="/courses"
           element={
-            
+             <ProtectedRoute>
               <MainLayout>
                 <Courses />
               </MainLayout>
-           
+           </ProtectedRoute>
           }
         />
       </Routes>
