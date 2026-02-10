@@ -8,6 +8,7 @@ import "./App.css";
 import { MainLayout } from "./components/MainLayout.jsx";
 import ProtectedRoute from "./configs/ProtectedRoute.jsx";
 import Courses from "./pages/courses.jsx";
+import Certificates from "./pages/certifications.jsx";
 
 function App() {
   return (
@@ -61,6 +62,16 @@ function App() {
                 <Courses />
               </MainLayout>
            </ProtectedRoute>
+          }
+        />
+         <Route
+          path="/certificates"
+          element={
+            
+              <MainLayout>
+                <Certificates />
+              </MainLayout>
+       
           }
         />
       </Routes>
