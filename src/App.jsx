@@ -18,10 +18,11 @@ function App() {
         <Route
           path="/dashboard"
           element={
-            
+            <ProtectedRoute>
               <MainLayout>
                 <Dashboard />
               </MainLayout>
+            </ProtectedRoute>
           }
         />
         <Route
@@ -67,11 +68,11 @@ function App() {
          <Route
           path="/certificates"
           element={
-            
+            <ProtectedRoute>
               <MainLayout>
                 <Certificates />
               </MainLayout>
-       
+            </ProtectedRoute>
           }
         />
       </Routes>

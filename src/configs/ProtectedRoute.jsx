@@ -4,7 +4,7 @@ import { AuthContext } from "../contexts/authContext.jsx";
 
 function ProtectedRoute({ children }){
     const { user } = useContext(AuthContext);
-    if (!user) {
+    if (!user || !localStorage.getItem("user")) {
         return <Navigate to="/" replace />;
     }
     return children;

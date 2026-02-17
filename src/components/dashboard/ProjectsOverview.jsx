@@ -4,22 +4,24 @@ import { Chart as ChartJS, ArcElement, Title, Tooltip, Legend } from "chart.js";
 ChartJS.register(ArcElement, Title, Tooltip, Legend);
 
 const ProjectOverview = ({ projects }) => {
-  const defaultData = [
-    { label: "idea", count: 15 },
-    { label: "In Progress", count: 8 },
-    { label: "Completed", count: 4 },
-  ];
+  const source = Array.isArray(projects) ? projects : [];
 
-  const source =
-    Array.isArray(projects) && projects.length ? projects : defaultData;
+  const counts = { Idea: 0, InProgress: 0, Completed: 0 };
 
-  const labels = source.map((p) => p.label);
+  source.forEach((p) => {
+    const state = (p.status || p.label || "").toString().toLowerCase();
+    if (state.includes("idea")) counts.Idea += 1;
+    else if (state.includes("in progress")) counts.InProgress += 1;
+    else if (state.includes("completed")) counts.Completed += 1;
+  });
+
+  const labels = ["Idea", "In Progress", "Completed"];
   const data = {
     labels,
     datasets: [
       {
         label: "Projects",
-        data: source.map((p) => p.count),
+        data: [counts.Idea, counts.InProgress, counts.Completed],
         backgroundColor: ["#4caf50", "#ffeb3b", "#f44336"],
         borderColor: ["#4caf50", "#ffeb3b", "#f44336"],
         borderWidth: 1,

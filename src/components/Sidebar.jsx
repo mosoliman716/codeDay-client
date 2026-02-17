@@ -1,8 +1,12 @@
+import { useContext } from "react";
+import { AuthContext } from "../contexts/authContext";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
+
 const Sidebar = () => {
   const [open, setOpen] = useState(false);
+  const { logout } = useContext(AuthContext);
 
   const sidebarBase =
     "h-screen bg-[#090616] text-white fixed top-0 left-0 border-r border-[#06b6d4] md:w-48 w-40";
@@ -216,6 +220,14 @@ const Sidebar = () => {
               </div>
             </div>
           </div>
+          <button
+            className="w-full mt-2 py-1 px-2 bg-cyan-600 text-white rounded hover:bg-cyan-700 transition-colors"
+            onClick={() => {
+             logout()
+            }}
+          >
+            Logout
+          </button>
         </div>
       </div>
     </>

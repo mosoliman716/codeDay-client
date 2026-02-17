@@ -16,42 +16,30 @@ ChartJS.register(
   BarElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
 );
 
 const ProblemChart = ({ problems }) => {
-  const defaultData = [
-    { label: "Easy", count: 15 },
-    { label: "Medium", count: 8 },
-    { label: "Hard", count: 4 },
-  ];
+  const source = Array.isArray(problems) ? problems : [];
 
-  const source =
-    Array.isArray(problems) && problems.length ? problems : defaultData;
+  const counts = { Easy: 0, Medium: 0, Hard: 0 };
 
-  const labels = source.map((p) => p.label);
+  source.forEach((p) => {
+    const diff = (p.difficulty || p.label || "").toString().toLowerCase();
+    if (diff.includes("easy")) counts.Easy += 1;
+    else if (diff.includes("medium")) counts.Medium += 1;
+    else if (diff.includes("hard")) counts.Hard += 1;
+  });
+
+  const labels = ["Easy", "Medium", "Hard"];
   const data = {
     labels,
     datasets: [
       {
-        label: "Easy",
-        data: source.map((p) => (p.label === "Easy" ? p.count : 0)),
-        backgroundColor: "green",
-        borderColor: "green",
-        borderWidth: 1,
-      },
-     {
-        label: "Medium",
-        data: source.map((p) => (p.label === "Medium" ? p.count : 0)),
-        backgroundColor: "yellow",
-        borderColor: "yellow",
-        borderWidth: 1,
-      },
-        {
-        label: "Hard",
-        data: source.map((p) => (p.label === "Hard" ? p.count : 0)),
-        backgroundColor: "red",
-        borderColor: "red",
+        label: "Problems",
+        data: [counts.Easy, counts.Medium, counts.Hard],
+        backgroundColor: ["green", "yellow", "red"],
+        borderColor: ["green", "yellow", "red"],
         borderWidth: 1,
       },
     ],

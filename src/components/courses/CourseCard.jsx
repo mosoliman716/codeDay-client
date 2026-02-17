@@ -1,7 +1,20 @@
-import { GraduationCap, ExternalLink } from "lucide-react";
+import { GraduationCap, ExternalLink, Trash2 } from "lucide-react";
 import Progress from "../ui/progress.jsx";
+import { api } from "../../configs/api.js";
 
 function CourseCard({ course }) {
+  
+  const deleteCourse = async () => {
+    try {
+      const response = await api.delete("/courses/delete", {
+        data: { _id: course._id },
+        withCredentials: true,
+      });
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div className="glass-card p-5 hover:border-white transition-all animate-fade-in bg-gray-900 rounded-lg">
@@ -27,8 +40,18 @@ function CourseCard({ course }) {
               >
                 {course.progress}%
               </span>
+              <button
+                className="h-8 w-8 text-white hover:bg-red-600 rounded-lg p-2"
+                onClick={() => deleteCourse()}
+              >
+                <Trash2 className="w-4 h-4" />
+              </button>
               {course.url && (
-                <button variant="ghost" size="icon" className="h-8 w-8 text-white">
+                <button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8 text-white"
+                >
                   <ExternalLink className="w-4 h-4" />
                 </button>
               )}

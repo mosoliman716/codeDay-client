@@ -30,6 +30,7 @@ export default function Courses() {
     }
   };
 
+
   useEffect(() => {
     const fetchCourses = async () => {
       try {
@@ -43,6 +44,8 @@ export default function Courses() {
     };
     fetchCourses();
   }, []);
+
+
 
   const filterCourses = (status) => {
     const normalize = (s) => String(s).toLowerCase().replace(/\s+/g, "-");
