@@ -35,7 +35,7 @@ function ProjectCard({ project }) {
     <>
       <div className="kanban-card animate-fade-in bg-gray-900 rounded-lg p-4 shadow-md">
         <div className="flex items-start justify-between mb-3 relative">
-          <h4 className="font-medium text-white">{project.title}</h4>
+          <h4 className="font-medium text-white">{editedProject.title}</h4>
           <button
             className="h-6 w-6 -mt-1 -mr-1 text-white"
             onClick={() => setMenuOpen(!menuOpen)}
@@ -70,10 +70,10 @@ function ProjectCard({ project }) {
           )}
         </div>
         <p className="text-sm text-white mb-4 line-clamp-2">
-          {project.description}
+          {editedProject.description}
         </p>
         <div className="flex flex-wrap gap-1 mb-4">
-          {project.technologies.slice(0, 3).map((tech) => (
+          {editedProject.technologies.slice(0, 3).map((tech) => (
             <span
               key={tech}
               className="text-xs text-white bg-gray-700 px-2 py-1 rounded"
@@ -83,7 +83,7 @@ function ProjectCard({ project }) {
           ))}
         </div>
         <div className="flex items-center gap-2">
-          {project.demoUrl && (
+          {editedProject.demoUrl && (
             <button className="h-7 w-7 text-white">
               <ExternalLink className="w-4 h-4" />
             </button>

@@ -7,9 +7,6 @@ import { Routes, Route } from "react-router-dom";
 import "./App.css";
 import { MainLayout } from "./components/MainLayout.jsx";
 import ProtectedRoute from "./configs/ProtectedRoute.jsx";
-import Courses from "./pages/courses.jsx";
-import Certificates from "./pages/certifications.jsx";
-
 function App() {
   return (
     <>
@@ -51,26 +48,6 @@ function App() {
             <ProtectedRoute>
               <MainLayout>
                 <Tasks />
-              </MainLayout>
-            </ProtectedRoute>
-          }
-        />
-         <Route
-          path="/courses"
-          element={
-             <ProtectedRoute>
-              <MainLayout>
-                <Courses />
-              </MainLayout>
-           </ProtectedRoute>
-          }
-        />
-         <Route
-          path="/certificates"
-          element={
-            <ProtectedRoute>
-              <MainLayout>
-                <Certificates />
               </MainLayout>
             </ProtectedRoute>
           }

@@ -35,25 +35,25 @@ function TaskCard({ task, toggleTask, getStatusIcon, getPriorityColor }) {
   return (
     <>
       <div
-        key={task.id}
+        key={editedTask.id}
         className="kanban-card animate-fade-in bg-gray-900 border border-gray-900 rounded-md p-4"
       >
         <div className="flex items-start gap-3">
           <button
-            onClick={() => toggleTask(task.id)}
+            onClick={() => toggleTask(editedTask.id)}
             className="mt-1 p-1 text-white"
             aria-label={
-              task.status === "Done" ? "Mark as not done" : "Mark as done"
+              editedTask.status === "Done" ? "Mark as not done" : "Mark as done"
             }
           >
-            {getStatusIcon(task.status)}
+            {getStatusIcon(editedTask.status)}
           </button>
           <div className="flex-1 min-w-0 relative">
             <div className="flex items-start justify-between">
               <h4
-                className={`font-medium text-white ${task.status === "Done" ? "line-through text-muted-foreground" : ""}`}
+                className={`font-medium text-white ${editedTask.status === "Done" ? "line-through text-muted-foreground" : ""}`}
               >
-                {task.title}
+                {editedTask.title}
               </h4>
               <button
                 className="h-6 w-6 -mt-1 -mr-1 text-white"
@@ -91,18 +91,18 @@ function TaskCard({ task, toggleTask, getStatusIcon, getPriorityColor }) {
             <div className="flex items-center gap-2 mt-2">
               <span
                 className={
-                  getPriorityColor(task.priority) +
-                  " text-xs px-2 py-1 rounded-full text-white bg-[#06b6d4]/70"
+                  getPriorityColor(editedTask.priority) +
+                  " text-xs px-2 py-1 rounded-full border text-white"
                 }
               >
-                {task.priority}
+                {editedTask.priority}
               </span>
               {task.dueDate && (
-                <span className="text-xs text-white">{task.dueDate}</span>
+                <span className="text-xs text-white">{editedTask.dueDate}</span>
               )}
             </div>
             {task.projectName && (
-              <p className="text-xs text-white mt-2">{task.projectName}</p>
+              <p className="text-xs text-white mt-2">{editedTask.projectName}</p>
             )}
           </div>
         </div>

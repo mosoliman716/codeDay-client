@@ -8,11 +8,11 @@ import { api } from "../configs/api.js";
 const getPriorityColor = (priority) => {
   switch (priority) {
     case "High":
-      return "bg-destructive/20 text-destructive border-destructive/30";
+      return "bg-red-500 border-red-500/30";
     case "Medium":
-      return "bg-warning/20 text-warning border-warning/30";
+      return "bg-yellow-500 border-yellow-500/30";
     case "Low":
-      return "bg-muted text-muted-foreground";
+      return "bg-green-500 border-green-500/30";
   }
 };
 

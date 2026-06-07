@@ -43,7 +43,7 @@ function ProblemCard({ p, index }) {
           href={href}
           className="text-white font-medium flex justify-between relative"
         >
-          <span className="truncate">{p.title}</span>
+          <span className="truncate">{editedProblem.title}</span>
           <button
             className="h-6 w-6 -mt-1 -mr-1 text-white"
             onClick={(e) => {
@@ -81,11 +81,11 @@ function ProblemCard({ p, index }) {
           )}
         </a>
         <div className="mt-1 text-sm text-gray-300">
-          {p.platform} • {p.difficulty}
+          {editedProblem.platform} • {editedProblem.difficulty}
         </div>
         <div className="mt-2 flex items-center justify-between">
           <span className="text-xs px-2 py-1 rounded-full bg-blue-700 text-white">
-            {p.status}
+            {editedProblem.status}
           </span>
           <a href={href} className="text-xs text-gray-300 hover:underline">
             View

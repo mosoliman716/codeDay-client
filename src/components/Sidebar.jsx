@@ -146,58 +146,6 @@ const Sidebar = () => {
                 Tasks
               </Link>
             </li>
-            <li>
-              <Link
-                to="/courses"
-                onClick={() => setOpen(false)}
-                className="block py-2.5 px-4 text-lg rounded hover:bg-[#06b6d4] hover:text-white transition-colors flex items-center"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 mr-3 text-[#06b6d4]"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 14l9-5-9-5-9 5 9 5zM12 14v7"
-                  />
-                </svg>
-                Courses
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/certificates"
-                onClick={() => setOpen(false)}
-                className="block py-2.5 px-4 text-lg rounded hover:bg-[#06b6d4] hover:text-white transition-colors flex items-center"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 mr-3 text-[#06b6d4]"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 12l2 2 4-4"
-                  />
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 2a10 10 0 100 20 10 10 0 000-20z"
-                  />
-                </svg>
-                Certificates
-              </Link>
-            </li>
           </ul>
         </nav>
         {/*footer */}
