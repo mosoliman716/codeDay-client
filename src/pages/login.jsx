@@ -49,30 +49,36 @@ function Login() {
     try {
       let response;
       if (state === "login") {
-        response = await api.post("/users/login", {
-          email: formData.email,
-          password: formData.password,
-        },{ withCredentials: true });
+        response = await api.post(
+          "/users/login",
+          {
+            email: formData.email,
+            password: formData.password,
+          },
+          { withCredentials: true },
+        );
 
         console.log("Login successful:", response.data);
         login(response.data.user);
         navigate("/dashboard");
-      } 
-      else if (state === "register") {
-        response = await api.post("/users/register", {
-          name: formData.name,
-          email: formData.email,
-          password: formData.password,
-        },{ withCredentials: true });
-        
+      } else if (state === "register") {
+        response = await api.post(
+          "/users/register",
+          {
+            name: formData.name,
+            email: formData.email,
+            password: formData.password,
+          },
+          { withCredentials: true },
+        );
+
         console.log("Registration successful:", response.data);
         login(response.data.user);
         navigate("/dashboard");
       }
-     
     } catch (err) {
       setError(
-        err.response?.data?.message || "An error occurred. Please try again."
+        err.response?.data?.message || "An error occurred. Please try again.",
       );
       console.error("Login error:", err);
     } finally {
@@ -82,10 +88,10 @@ function Login() {
 
   return (
     <>
-      <div className="min-h-screen flex items-center justify-center px-4">
+      <div className="min-h-screen flex items-center justify-center px-4 bg-linear-to-br from-gray-900 via-gray-900 to-gray-800">
         <form
           onSubmit={handleLogin}
-          className="w-full sm:w-87.5 text-center bg-gray-900 border border-gray-800 rounded-2xl px-8 shadow-lg"
+          className="w-full max-w-md text-center bg-gray-900 border border-gray-800 rounded-2xl px-8 py-8 shadow-xl"
         >
           <h1 className="text-white text-3xl mt-10 font-medium">
             {state === "login" ? "Login" : "Sign up"}
@@ -98,12 +104,12 @@ function Login() {
           {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
 
           {state !== "login" && (
-            <div className="flex items-center mt-6 w-full bg-gray-800 ring-2 ring-gray-700 focus-within:ring-indigo-500 h-12 rounded-full overflow-hidden pl-6 gap-2 transition-all">
+            <div className="flex items-center mt-6 w-full bg-gray-800 ring-1 ring-gray-700 focus-within:ring-indigo-500 h-12 rounded-full overflow-hidden pl-4 gap-2 transition-all">
               <input
                 type="text"
                 name="name"
                 placeholder="Name"
-                className="w-full bg-transparent text-white placeholder-gray-500 border-none outline-none"
+                className="w-full bg-transparent text-white placeholder-gray-500 border-none outline-none px-2"
                 value={formData.name}
                 onChange={handleChange}
                 required
@@ -123,12 +129,12 @@ function Login() {
             />
           </div>
 
-          <div className="flex items-center mt-4 w-full bg-gray-800 ring-2 ring-gray-700 focus-within:ring-indigo-500 h-12 rounded-full overflow-hidden pl-6 gap-2 transition-all">
+          <div className="flex items-center mt-4 w-full bg-gray-800 ring-1 ring-gray-700 focus-within:ring-indigo-500 h-12 rounded-full overflow-hidden pl-4 gap-2 transition-all">
             <input
               type="password"
               name="password"
               placeholder="Password"
-              className="w-full bg-800 text-white placeholder-gray-500 border-none outline-none"
+              className="w-full bg-transparent text-white placeholder-gray-500 border-none outline-none px-2"
               value={formData.password}
               onChange={handleChange}
               required
@@ -143,14 +149,14 @@ function Login() {
 
           <button
             type="submit"
-            className="mt-2 w-full h-11 rounded-full text-white bg-indigo-600 hover:bg-indigo-500 transition"
+            className="mt-4 w-full h-12 rounded-full text-white bg-indigo-600 hover:bg-indigo-500 transition font-medium shadow"
             disabled={loading}
           >
             {loading
               ? "Please wait..."
               : state === "login"
-              ? "Login"
-              : "Sign up"}
+                ? "Login"
+                : "Sign up"}
           </button>
 
           <p
@@ -169,9 +175,9 @@ function Login() {
         </form>
       </div>
       {/* Background Effects */}
-      <div className="fixed inset-0 -z-1 pointer-events-none">
-        <div className="absolute left-1/2 top-20 -translate-x-1/2 w-245 h-115 bg-linear-to-tr from-gray-900 to-gray-800 rounded-full blur-3xl" />
-        <div className="absolute right-12 bottom-10 w-105 h-55 bg-linear-to-bl from-gray-800 to-gray-900 rounded-full blur-2xl" />
+      <div className="fixed inset-0 pointer-events-none -z-10">
+        <div className="absolute left-1/2 top-20 -translate-x-1/2 w-64 h-40 bg-linear-to-tr from-gray-900 to-gray-800 rounded-full blur-3xl opacity-60" />
+        <div className="absolute right-12 bottom-10 w-40 h-28 bg-linear-to-bl from-gray-800 to-gray-900 rounded-full blur-2xl opacity-50" />
       </div>
     </>
   );

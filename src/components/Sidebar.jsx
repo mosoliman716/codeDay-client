@@ -3,7 +3,6 @@ import { AuthContext } from "../contexts/authContext";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-
 const Sidebar = () => {
   const [open, setOpen] = useState(false);
   const { logout } = useContext(AuthContext);
@@ -21,7 +20,7 @@ const Sidebar = () => {
       <button
         aria-label="Toggle sidebar"
         onClick={() => setOpen((s) => !s)}
-        className="md:hidden absolute top-4 right-4 z-60 p-2 rounded text-[#06b6d4] bg-blue"
+        className="md:hidden absolute top-4 right-4 z-50 p-2 rounded text-[#06b6d4] bg-transparent border border-gray-700"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -42,9 +41,9 @@ const Sidebar = () => {
       {/* Backdrop for mobile when open */}
       {open && (
         <div
-          className="fixed inset-0 backdrop-blur-sm bg-opacity-50 z-40 md:hidden"
+          className="fixed inset-0 backdrop-blur-sm bg-black/40 z-40 md:hidden"
           onClick={() => setOpen(false)}
-          aria-hidden
+          aria-hidden="true"
         />
       )}
       {/* Sidebar */}
@@ -58,7 +57,7 @@ const Sidebar = () => {
               <Link
                 to="/dashboard"
                 onClick={() => setOpen(false)}
-                className="block py-2.5 px-4 text-lg rounded hover:bg-[#06b6d4] hover:text-white transition-colors flex items-center"
+                className="py-2.5 px-4 text-lg rounded hover:bg-[#06b6d4] hover:text-white transition-colors flex items-center"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -81,7 +80,7 @@ const Sidebar = () => {
               <Link
                 to="/problems"
                 onClick={() => setOpen(false)}
-                className="block py-2.5 px-4 text-lg rounded hover:bg-[#06b6d4] hover:text-white transition-colors flex items-center"
+                className="py-2.5 px-4 text-lg rounded hover:bg-[#06b6d4] hover:text-white transition-colors flex items-center"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -104,7 +103,7 @@ const Sidebar = () => {
               <Link
                 to="/projects"
                 onClick={() => setOpen(false)}
-                className="block py-2.5 px-4 text-lg rounded hover:bg-[#06b6d4] hover:text-white transition-colors flex items-center"
+                className="py-2.5 px-4 text-lg rounded hover:bg-[#06b6d4] hover:text-white transition-colors flex items-center"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -127,7 +126,7 @@ const Sidebar = () => {
               <Link
                 to="/tasks"
                 onClick={() => setOpen(false)}
-                className="block py-2.5 px-4 text-lg rounded hover:bg-[#06b6d4] hover:text-white transition-colors flex items-center"
+                className="py-2.5 px-4 text-lg rounded hover:bg-[#06b6d4] hover:text-white transition-colors flex items-center"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -149,7 +148,7 @@ const Sidebar = () => {
           </ul>
         </nav>
         {/*footer */}
-        <div className="p-4 border-t border-sidebar-border mt-10">
+        <div className="p-4 border-t border-gray-700 mt-10">
           <div className="bg-gray-800 rounded-xl p-4">
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 rounded-full bg-[#06b6d4] flex items-center justify-center">
@@ -169,9 +168,9 @@ const Sidebar = () => {
             </div>
           </div>
           <button
-            className="w-full mt-2 py-1 px-2 bg-cyan-600 text-white rounded hover:bg-cyan-700 transition-colors"
+            className="w-full mt-2 py-2 px-3 bg-cyan-600 text-white rounded hover:bg-cyan-700 transition-colors font-medium"
             onClick={() => {
-             logout()
+              logout();
             }}
           >
             Logout

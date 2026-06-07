@@ -59,9 +59,8 @@ export default function Dashboard() {
     fetchCertificates();
   }, []);
 
-
   return (
-    <div className="space-y-8 mt-10">
+    <div className="space-y-8 mt-10 container mx-auto px-4">
       {/* Header */}
       <div>
         <h1 className="text-3xl font-bold text-white">Dashboard</h1>
@@ -96,22 +95,22 @@ export default function Dashboard() {
         />
       </div>
       {/*Problem chart*/}
-      <div className="bg-gray-800 p-4 rounded-lg h-90">
+      <div className="bg-gray-800 p-4 rounded-lg h-90 shadow-xl ring-1 ring-black/20">
         <h2 className="text-xl font-semibold text-white mb-4">
           Problem Solving Progress
         </h2>
-        <div className="h-64 bg-gray-700 rounded-lg flex items-center justify-center">
+        <div className="h-64 bg-gray-700 rounded-lg flex items-center justify-center p-2">
           <ProblemChart
             problems={problemsData.filter((p) => p.status === "Solved")}
           />
         </div>
       </div>
       {/* projects visualization */}
-      <div className="bg-gray-800 p-4 rounded-lg h-90">
+      <div className="bg-gray-800 p-4 rounded-lg h-90 shadow-xl ring-1 ring-black/20">
         <h2 className="text-xl font-semibold text-white mb-4">
           Projects Overview
         </h2>
-        <div className="h-64 bg-gray-700 rounded-lg flex items-center justify-center">
+        <div className="h-64 bg-gray-700 rounded-lg flex items-center justify-center p-2">
           <ProjectOverview projects={projectsData} />
         </div>
       </div>

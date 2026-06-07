@@ -4,7 +4,6 @@ import AddTask from "../components/tasks/addTask.jsx";
 import TaskCard from "../components/tasks/taskCard.jsx";
 import { api } from "../configs/api.js";
 
-
 const getPriorityColor = (priority) => {
   switch (priority) {
     case "High":
@@ -83,7 +82,7 @@ export default function Tasks() {
   }, []);
 
   return (
-    <div className="space-y-8 mt-10">
+    <div className="space-y-8 mt-10 container mx-auto px-4">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -102,7 +101,10 @@ export default function Tasks() {
       {/* Kanban Board */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {columns.map((column) => (
-          <div key={column.id} className="space-y-4 bg-gray-800 rounded-lg p-4">
+          <div
+            key={column.id}
+            className="space-y-4 bg-gray-800 rounded-lg p-4 ring-1 ring-black/20 shadow-xl"
+          >
             <div className={`kanban-column border-t-2 ${column.color}`}>
               <div className="flex items-center justify-between mb-4">
                 <h3 className="font-semibold text-white mt-3">

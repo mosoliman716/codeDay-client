@@ -2,7 +2,7 @@ import { Plus } from "lucide-react";
 import ProjectCard from "../components/projects/ProjectCard.jsx";
 import AddProject from "../components/projects/AddProject.jsx";
 import { useState, useEffect } from "react";
-import { api } from "../configs/api.js"
+import { api } from "../configs/api.js";
 
 const columns = [
   { id: "Idea", title: "Idea", color: "border-t-4 border-t-gray" },
@@ -13,7 +13,6 @@ const columns = [
   },
   { id: "Completed", title: "Completed", color: "border-t-4 border-green" },
 ];
-
 
 export default function Projects() {
   const [projects, setProjects] = useState([]);
@@ -28,28 +27,28 @@ export default function Projects() {
   });
 
   const addProject = async () => {
-      setShowAddProject(false);
-      const response = await api.post("/projects/add", newProject, {
-        withCredentials: true,
-      });
-      setProjects([...projects, response.data]);
-  }
- 
-    useEffect(() => {
-      const fetchProjects = async () => {
-        try {
-          const response = await api.get("/projects/get", {
-            withCredentials: true,
-          });
-          setProjects(response.data);
-        } catch (error) {
-          console.error(error);
-        }
-      };
-      fetchProjects();
-    }, []);
+    setShowAddProject(false);
+    const response = await api.post("/projects/add", newProject, {
+      withCredentials: true,
+    });
+    setProjects([...projects, response.data]);
+  };
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const response = await api.get("/projects/get", {
+          withCredentials: true,
+        });
+        setProjects(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchProjects();
+  }, []);
   return (
-    <div className="space-y-8 mt-10">
+    <div className="space-y-8 mt-10 container mx-auto px-4">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -72,7 +71,7 @@ export default function Projects() {
         {columns.map((column) => (
           <div key={column.id} className="space-y-4">
             <div
-              className={`p-4 rounded-lg shadow-lg ${column.color} bg-gray-800 kanban-column`}
+              className={`p-4 rounded-lg shadow-xl ${column.color} bg-gray-800 kanban-column ring-1 ring-black/20`}
             >
               <div className="flex items-center justify-between mb-4">
                 <h3 className="font-semibold text-white">{column.title}</h3>
