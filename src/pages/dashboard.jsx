@@ -75,7 +75,6 @@ export default function Dashboard() {
           title="Solved Problems"
           value={problemsData.filter((p) => p.status === "Solved").length}
           icon={Code2}
-          trend={{ value: 12, isPositive: true }}
         />
         <StatCard
           title="Active Projects"
@@ -86,7 +85,6 @@ export default function Dashboard() {
           title="Courses enrolled"
           value={coursesData.length}
           icon={GraduationCap}
-          trend={{ value: 8, isPositive: true }}
         />
         <StatCard
           title="Certificates"
