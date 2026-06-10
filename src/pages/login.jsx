@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { api } from "../configs/api.js";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/authContext.jsx";
@@ -85,6 +85,22 @@ function Login() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    const checkSession = async () => {
+      try {
+        const response = await api.get("/users/me", { withCredentials: true });
+        if (response.data.user) {
+          login(response.data.user);
+          navigate("/dashboard");
+        }
+      } catch (err) {
+        console.log("No active session found:", err);
+      }
+    };
+
+    checkSession();
+  }, [login, navigate]);
 
   return (
     <>
